@@ -10,5 +10,6 @@
     <string name="start">START</string>
     <string name="completed_in_moves">Completed in Moves :</string>
     <string name="change_difficulty">Change Difficulty</string>
-    <string name="choose_difficulty_level">Choose a difficulty level</string>
+    <string name="choose_grid_size">Choose Grid Size</string>
+    <string name="e_g_4">E.g. 4</string>
 </resources>

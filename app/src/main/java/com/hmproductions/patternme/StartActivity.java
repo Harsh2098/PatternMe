@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class StartActivity extends AppCompatActivity {
 
     public static final String DIFFICULTY_LEVEL = "difficulty-level";
-    Spinner mDifficultySpinner;
     Button startButton;
+    EditText num_editText;
 
     String difficulty;
     String[] difficulty_options = new String[]{"Easy","Medium","Hard"};
@@ -25,13 +26,13 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        mDifficultySpinner = (Spinner)findViewById(R.id.difficulty_spinner);
         startButton = (Button)findViewById(R.id.start_button);
+
+        num_editText = (EditText)findViewById(R.id.difficulty_editText);
 
         GradientDrawable startGradientDrawable = (GradientDrawable)startButton.getBackground();
         startGradientDrawable.setColor(Color.parseColor("#669900"));
 
-        setupSpinner();
         StartButtonClickListener();
     }
 
@@ -41,44 +42,9 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                intent.putExtra(DIFFICULTY_LEVEL, difficulty);
+                intent.putExtra(DIFFICULTY_LEVEL, Integer.parseInt(num_editText.getText().toString()));
                 startActivity(intent);
                 finish();
-            }
-        });
-    }
-
-    private void setupSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.spinner_item,difficulty_options);
-
-        mDifficultySpinner.setAdapter(adapter);
-
-        mDifficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position)
-                {
-                    case 0 :
-                        difficulty = "easy";
-                        break;
-
-                    case 1 :
-                        difficulty = "medium";
-                        break;
-
-                    case 2 :
-                        difficulty = "hard";
-                        break;
-
-                    default:
-                        difficulty = "easy";
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                difficulty = "easy";
             }
         });
     }

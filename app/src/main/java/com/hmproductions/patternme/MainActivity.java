@@ -66,19 +66,7 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
     }
 
     private void getGridEdge() {
-        switch (getIntent().getStringExtra(StartActivity.DIFFICULTY_LEVEL)) {
-            case "easy":
-                GRID_EDGE = 3;
-                break;
-
-            case "medium":
-                GRID_EDGE = 5;
-                break;
-
-            case "hard":
-                GRID_EDGE = 7;
-                break;
-        }
+        GRID_EDGE = getIntent().getIntExtra(StartActivity.DIFFICULTY_LEVEL, 4);
     }
 
     private void BindViews() {

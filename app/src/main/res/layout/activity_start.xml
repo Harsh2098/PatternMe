@@ -5,22 +5,22 @@
     android:layout_height="match_parent"
     android:padding="6dp">
 
-    <Spinner
-        android:id="@+id/difficulty_spinner"
+    <EditText
+        android:id="@+id/difficulty_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:elevation="4dp" />
+        android:inputType="number"
+        android:hint="@string/e_g_4"
+        android:layout_marginEnd="75dp"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/difficulty_spinner"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="@string/choose_difficulty_level"
+        android:layout_above="@id/difficulty_editText"
+        android:text="@string/choose_grid_size"
         android:textColor="@android:color/background_dark"
         android:textSize="20sp" />
 
@@ -28,9 +28,9 @@
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/difficulty_spinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
+        android:layout_below="@id/difficulty_editText"
         android:background="@drawable/rounded_button"
         android:elevation="2dp"
         android:padding="4dp"

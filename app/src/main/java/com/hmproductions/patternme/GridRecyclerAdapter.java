@@ -1,11 +1,14 @@
 package com.hmproductions.patternme;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 
 /**
@@ -20,6 +23,8 @@ class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.GridV
     private Context mContext;
     private int mGridEdge;
 
+    RelativeLayout.LayoutParams layoutParams;
+
     private OnGridCellClickListener mGridCellClickListener;
 
     interface OnGridCellClickListener {
@@ -33,27 +38,19 @@ class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.GridV
         mContext = context;
         mGridEdge = edgeLength;
         mGridCellClickListener = mClickListener;
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        layoutParams = new RelativeLayout.LayoutParams(displayMetrics.widthPixels/mGridEdge,displayMetrics.widthPixels/mGridEdge);
     }
 
     @Override
     public GridRecyclerAdapter.GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View myView;
+        View myView = LayoutInflater.from(mContext).inflate(R.layout.grid_item, parent, false);
 
-        switch (mGridEdge) {
-            case 3:
-            default:
-                myView = LayoutInflater.from(mContext).inflate(R.layout.easy_grid_item, parent, false);
-                break;
+        myView.setLayoutParams(layoutParams);
 
-            case 5:
-                myView = LayoutInflater.from(mContext).inflate(R.layout.medium_grid_item, parent, false);
-                break;
-
-            case 7:
-                myView = LayoutInflater.from(mContext).inflate(R.layout.hard_grid_item, parent, false);
-                break;
-        }
         return new GridViewHolder(myView);
     }
 
