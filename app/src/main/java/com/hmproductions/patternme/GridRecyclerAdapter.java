@@ -14,7 +14,14 @@ import android.widget.RelativeLayout;
 /**
  * Created by Harsh Mahajan on 19/7/2017.
  *
- * GridRecyclerAdapter is used to provide adapter for GridLayoutManager
+ * GridRecyclerAdapter is used to provide adapter for GridLayoutManager (deprecated)
+ *
+ * *************************************************************************
+ *
+ * *********************THIS IS NOT USED ANYMORE****************************
+ *
+ * *************************************************************************
+ *
  */
 
 class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.GridViewHolder> {
@@ -23,13 +30,9 @@ class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.GridV
     private Context mContext;
     private int mGridEdge;
 
-    RelativeLayout.LayoutParams layoutParams;
+    private RelativeLayout.LayoutParams layoutParams;
 
     private OnGridCellClickListener mGridCellClickListener;
-
-    interface OnGridCellClickListener {
-        void onGridCellClick(int gridCellPosition);
-    }
 
     GridRecyclerAdapter(Context context, boolean[][] grid, int edgeLength, OnGridCellClickListener mClickListener) {
         mGrid = new boolean[mGridEdge][mGridEdge];
@@ -75,6 +78,10 @@ class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.GridV
     {
         mGrid = data;
         notifyDataSetChanged();
+    }
+
+    interface OnGridCellClickListener {
+        void onGridCellClick(int gridCellPosition);
     }
 
     class GridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

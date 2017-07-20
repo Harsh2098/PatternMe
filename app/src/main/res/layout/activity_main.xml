@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="6dp">
+    android:padding="2dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/grid_recyclerView"
+    <LinearLayout
+        android:id="@+id/main_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/resetButton"
@@ -63,9 +66,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/showGridButton"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:text="@string/number_of_moves"
         android:textColor="@android:color/background_dark"
         android:textSize="20sp" />

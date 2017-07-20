@@ -9,7 +9,8 @@
     <string name="number_of_moves">Number of Moves :</string>
     <string name="start">START</string>
     <string name="completed_in_moves">Completed in Moves :</string>
-    <string name="change_difficulty">Change Difficulty</string>
+    <string name="change_grid_size">Change Grid Size</string>
     <string name="choose_grid_size">Choose Grid Size</string>
-    <string name="e_g_4">E.g. 4</string>
+    <string name="e_g_4">E.g. 5 (Default grid size is 3)</string>
+    <string name="how_to_play">How To Play</string>
 </resources>

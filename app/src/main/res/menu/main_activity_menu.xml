@@ -9,13 +9,13 @@
 
     <item
         android:id="@+id/changeDifficulty_item"
-        android:title="@string/change_difficulty"
+        android:title="@string/change_grid_size"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/howToPlay_item"
-        android:title="@string/change_difficulty"
-        app:showAsAction="ifRoom"
-        android:icon="@mipmap/howtoplay_icon2"/>
+        android:icon="@mipmap/howtoplay_icon2"
+        android:title="@string/how_to_play"
+        app:showAsAction="ifRoom" />
 
 </menu>

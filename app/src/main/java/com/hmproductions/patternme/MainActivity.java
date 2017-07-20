@@ -9,12 +9,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +24,15 @@ import java.util.Random;
 
 import rb.popview.PopField;
 
-public class MainActivity extends AppCompatActivity implements GridRecyclerAdapter.OnGridCellClickListener {
+public class MainActivity extends AppCompatActivity {
 
     public int GRID_EDGE;
-
+    RelativeLayout.LayoutParams layoutParams;
     private Button resetButton, undoButton, showGridButton;
     private TextView moves_textView, numberOfMoves_textView;
-    private RecyclerView gridRecyclerView;
-    private GridRecyclerAdapter mAdapter;
     private MediaPlayer tadaCelebration;
-
+    private LinearLayout mainLinearLayout;
     private PopField mPopField;
-
     private boolean[][] originalGrid, userGrid;
     private int undoPositionX = -1, undoPositionY = -1, counter = 0;
 
@@ -42,36 +41,58 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getGridEdge();
+        GRID_EDGE = getIntent().getIntExtra(StartActivity.DIFFICULTY_LEVEL, 3);
 
         originalGrid = new boolean[GRID_EDGE][GRID_EDGE];
         userGrid = new boolean[GRID_EDGE][GRID_EDGE];
 
+        SetupDisplayMetrics();
         BindViews();
         SetupGrids();
+        CreateGridLayout();
 
         ResetButtonClickListener();
         ShowGridButtonClickListener();
         UndoButtonClickListener();
 
-        mAdapter = new GridRecyclerAdapter(this, userGrid, GRID_EDGE, this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, GRID_EDGE);
-
-        gridRecyclerView.setLayoutManager(layoutManager);
-        gridRecyclerView.setAdapter(mAdapter);
-        gridRecyclerView.setHasFixedSize(true);
-
         tadaCelebration = MediaPlayer.create(this, R.raw.tada_celebration);
         mPopField = PopField.attach2Window(this);
     }
 
-    private void getGridEdge() {
-        GRID_EDGE = getIntent().getIntExtra(StartActivity.DIFFICULTY_LEVEL, 4);
+    /* Sets up all the display metrics */
+    private void SetupDisplayMetrics() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        layoutParams = new RelativeLayout.LayoutParams(displayMetrics.widthPixels / GRID_EDGE, displayMetrics.widthPixels / GRID_EDGE);
     }
 
+    private void CreateGridLayout() {
+
+        for (int i = 0; i < GRID_EDGE; ++i) {
+            LinearLayout linearLayout = new LinearLayout(this);
+            mainLinearLayout.addView(linearLayout);
+            for (int j = 0; j < GRID_EDGE; ++j) {
+                View myView = LayoutInflater.from(this).inflate(R.layout.grid_item, linearLayout, false);
+                myView.setLayoutParams(layoutParams);
+
+                final int finalI = i;
+                final int finalJ = j;
+                myView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onGridCellClick(finalI * GRID_EDGE + finalJ);
+                    }
+                });
+                linearLayout.addView(myView);
+            }
+        }
+
+    }
+
+    /* Binds all the views from main_activity.xml */
     private void BindViews() {
 
-        gridRecyclerView = (RecyclerView) findViewById(R.id.grid_recyclerView);
+        mainLinearLayout = (LinearLayout) findViewById(R.id.main_linearLayout);
         resetButton = (Button) findViewById(R.id.resetButton);
         undoButton = (Button) findViewById(R.id.undoButton);
         showGridButton = (Button) findViewById(R.id.showGridButton);
@@ -90,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
         moves_textView.setText(String.valueOf(counter));
     }
 
+    /* Creates originalGrid and userGrid */
     private void SetupGrids() {
 
         // Making Original Grid
@@ -133,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         resetWholeGrid(userGrid);
-                                        mAdapter.swapData(userGrid);
+                                        swapData(userGrid);
 
                                         counter = -1;
                                         incrementNumberOfMoves();
@@ -158,22 +180,39 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
         });
     }
 
+    /* Analogous to swapData() in Recycler view. Takes in @param grid and sets the tile color accordingly */
+    private void swapData(boolean[][] grid) {
+
+        for (int i = 0; i < GRID_EDGE; ++i)
+            for (int j = 0; j < GRID_EDGE; ++j) {
+                View myView = ((LinearLayout) mainLinearLayout.getChildAt(i)).getChildAt(j).findViewById(R.id.view);
+
+                if (grid[i][j])
+                    myView.setBackgroundColor(Color.parseColor("#FF9100"));
+                else
+                    myView.setBackgroundColor(Color.parseColor("#000000"));
+
+            }
+    }
+
+    /* Switches between Original Grid and User Grid */
     private void ShowGridButtonClickListener() {
 
         showGridButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (showGridButton.getText().toString().equals("SHOW GRID")) {
-                    mAdapter.swapData(originalGrid);
+                    swapData(originalGrid);
                     showGridButton.setText(R.string.my_grid);
                 } else {
-                    mAdapter.swapData(userGrid);
+                    swapData(userGrid);
                     showGridButton.setText(R.string.show_grid);
                 }
             }
         });
     }
 
+    /* Handles Undo button click */
     private void UndoButtonClickListener() {
 
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -186,13 +225,13 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
 
                 else {
                     clickGridCell(userGrid, undoPositionX, undoPositionY);
-                    mAdapter.swapData(userGrid);
+                    swapData(userGrid);
                 }
             }
         });
     }
 
-    /* Click grid cell takes in boolean[][] and the position in the grid where cell has to be pressed */
+    /* Clicks grid cell in boolean[][]; @param x, y  - position in the grid where cell has to be pressed */
     private void clickGridCell(boolean[][] grid, int x, int y) {
 
         undoPositionX = x;
@@ -211,8 +250,8 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
 
     }
 
+    /* Checks if originalGrid is equal to userGrid */
     private boolean checkWin() {
-
         for (int i = 0; i < GRID_EDGE; ++i)
             for (int j = 0; j < GRID_EDGE; ++j)
                 if (originalGrid[i][j] != userGrid[i][j])
@@ -221,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
         return true;
     }
 
+    /* Checks if all the userGrid[][] cells are false */
     private boolean firstMove() {
         for (int i = 0; i < GRID_EDGE; ++i)
             for (int j = 0; j < GRID_EDGE; ++j)
@@ -230,20 +270,21 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
         return true;
     }
 
+    /* Sets are the elements of grid to false */
     private void resetWholeGrid(boolean[][] grid) {
         for (int i = 0; i < GRID_EDGE; ++i)
             for (int j = 0; j < GRID_EDGE; ++j)
                 grid[i][j] = false;
     }
 
-    @Override
+    /* @param gridCellPosition - position where the cell is clicked */
     public void onGridCellClick(int gridCellPosition) {
 
         if (showGridButton.getText().toString().equals(getString(R.string.show_grid))) {
 
             clickGridCell(userGrid, gridCellPosition / GRID_EDGE, gridCellPosition % GRID_EDGE);
             incrementNumberOfMoves();
-            mAdapter.swapData(userGrid);
+            swapData(userGrid);
 
             // Checking if user has won the game
             if (checkWin()) {
@@ -323,9 +364,9 @@ public class MainActivity extends AppCompatActivity implements GridRecyclerAdapt
             else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder
-                        .setTitle("Change Difficulty")
+                        .setTitle("Change Grid Size")
                         .setMessage("You will lose all the progress. Do you want to start new game with new difficulty level?")
-                        .setPositiveButton(getString(R.string.change_difficulty), new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.change_grid_size), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 startActivity(new Intent(MainActivity.this, StartActivity.class));
