@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grid_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/resetButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/reset"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/showGridButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/show_grid"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/undoButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:text="@string/undo"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        tools:ignore="RelativeOverlap" />
+
+    <TextView
+        android:id="@+id/numberOfMoves_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/showGridButton"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="@string/number_of_moves"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/moves_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/showGridButton"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/numberOfMoves_textView"
+        android:gravity="start"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20sp" />
+
+</RelativeLayout>

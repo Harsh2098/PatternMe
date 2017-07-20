@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Pattern Me</string>
+    <string name="reset">RESET</string>
+    <string name="undo">UNDO</string>
+    <string name="show_grid">SHOW GRID</string>
+    <string name="my_grid">MY GRID</string>
+    <string name="congratulations">CONGRATULATIONS</string>
+    <string name="new_game">New Game</string>
+    <string name="number_of_moves">Number of Moves :</string>
+    <string name="start">START</string>
+    <string name="completed_in_moves">Completed in Moves :</string>
+    <string name="change_difficulty">Change Difficulty</string>
+    <string name="choose_difficulty_level">Choose a difficulty level</string>
+</resources>
