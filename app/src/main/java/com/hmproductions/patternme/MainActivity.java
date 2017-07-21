@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         moves_textView.setText(String.valueOf(counter));
     }
 
-    /* Creates originalGrid and userGrid */
+    /* Creates originalGrid by simulating random clicks and userGrid */
     private void SetupGrids() {
 
         // Making Original Grid
@@ -125,18 +125,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
         // Simulating any random 100 clicks to make Original Grid
-        for (int i = 0; i < 10; ++i) {
-            for (int j = 0; j < 10; ++j) {
+        for (int i = 0; i < GRID_EDGE * GRID_EDGE; ++i) {
 
-                // Generating 2 random numbers to click any element in originalGrid [][]
-                Random r1 = new Random();
-                Random r2 = new Random();
+            // Generating 2 random numbers to click any element in originalGrid [][]
+            Random r1 = new Random();
+            Random r2 = new Random();
 
-                randomNumber1 = (r1.nextInt(GRID_EDGE));
-                randomNumber2 = (r2.nextInt(GRID_EDGE));
+            randomNumber1 = (r1.nextInt(GRID_EDGE));
+            randomNumber2 = (r2.nextInt(GRID_EDGE));
 
-                clickGridCell(originalGrid, randomNumber1, randomNumber2);
-            }
+            clickGridCell(originalGrid, randomNumber1, randomNumber2);
         }
     }
 
@@ -330,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.newGame_item) {
 
             // Checking if user has already won. If yes no alert dialog is displayed.
-            if(checkWin())
+            if (checkWin())
                 recreate();
             else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -356,12 +354,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.changeDifficulty_item) {
 
             // Checking if user has already won. If yes no alert dialog is displayed.
-            if(checkWin())
-            {
+            if (checkWin()) {
                 startActivity(new Intent(MainActivity.this, StartActivity.class));
                 finish();
-            }
-            else {
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder
                         .setTitle("Change Grid Size")

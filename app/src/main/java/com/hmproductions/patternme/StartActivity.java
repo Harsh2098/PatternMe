@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -39,6 +40,11 @@ public class StartActivity extends AppCompatActivity {
 
                 if (num_editText.getText().toString().isEmpty() || num_editText.getText().toString().equals(""))
                     intent.putExtra(DIFFICULTY_LEVEL, 3);
+
+                else if (Integer.parseInt(num_editText.getText().toString()) > 10) {
+                    Toast.makeText(StartActivity.this, "Please enter a number between 2 and 9 inclusive", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 else
                     intent.putExtra(DIFFICULTY_LEVEL, Integer.parseInt(num_editText.getText().toString()));
                 startActivity(intent);
